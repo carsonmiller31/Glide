@@ -79,7 +79,11 @@ struct MenuView: View {
                 Text(label).monospacedDigit().foregroundStyle(.secondary)
             }
             .font(.callout)
-            Slider(value: value, in: range, step: step)
+            // Snap in the binding rather than with `step:`, which draws a tick per step.
+            Slider(value: Binding(
+                get: { value.wrappedValue },
+                set: { value.wrappedValue = ($0 / step).rounded() * step }
+            ), in: range)
                 .controlSize(.small)
         }
     }

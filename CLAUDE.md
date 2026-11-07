@@ -16,3 +16,8 @@ macOS menu bar app (macOS 14+) that makes a normal mouse wheel scroll smoothly, 
 - App: `zsh scripts/build.sh` → `build/Glide.app`; `--install` replaces `/Applications/Glide.app` and relaunches.
 - Always sign with the Apple Development identity (the script does): Accessibility permission is tied to the signature, so ad-hoc builds lose it every time.
 - Icon: `swift scripts/make-icon.swift Resources/AppIcon.icns`.
+- Screenshot: `GLIDE_SNAPSHOT=docs/menu.png build/Glide.app/Contents/MacOS/Glide` renders the menu and exits without starting the tap.
+
+## Open source
+
+Public at github.com/carsonmiller31/Glide under MIT. No CI yet: pushing a workflow file needs a `gh` token with the `workflow` scope. Keep README.md in step with settings and behaviour.

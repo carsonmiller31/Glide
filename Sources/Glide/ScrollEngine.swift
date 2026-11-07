@@ -15,8 +15,14 @@ final class ScrollEngine: ObservableObject {
     /// "GLID" — tags events we post so the tap lets them through.
     private static let marker: Int64 = 0x474C_4944
 
-    @Published private(set) var hasPermission = AXIsProcessTrusted()
-    @Published private(set) var isRunning = false
+    @Published fileprivate(set) var hasPermission = AXIsProcessTrusted()
+    @Published fileprivate(set) var isRunning = false
+
+    /// For README screenshots only: show the menu as if the tap were running.
+    func showAsRunningForSnapshot() {
+        hasPermission = true
+        isRunning = true
+    }
 
     private let settings = Settings.shared
     private var tap: CFMachPort?

@@ -23,6 +23,10 @@ struct GlideApp: App {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
+        if let path = ProcessInfo.processInfo.environment["GLIDE_SNAPSHOT"] {
+            Snapshot.render(to: path)
+            exit(0)
+        }
         _ = FrontmostAppTracker.shared
         ScrollEngine.shared.start()
     }
@@ -32,7 +36,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 /// Glide off for it (opening our menu does not count).
 final class FrontmostAppTracker: ObservableObject {
     static let shared = FrontmostAppTracker()
-    @Published private(set) var lastApp: ExcludedApp?
+    @Published fileprivate(set) var lastApp: ExcludedApp?
 
     private init() {
         update(NSWorkspace.shared.frontmostApplication)
@@ -42,6 +46,9 @@ final class FrontmostAppTracker: ObservableObject {
             self?.update(note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication)
         }
     }
+
+    /// For README screenshots only.
+    func showForSnapshot(_ app: ExcludedApp) { lastApp = app }
 
     private func update(_ app: NSRunningApplication?) {
         guard let app, let id = app.bundleIdentifier, id != Bundle.main.bundleIdentifier else { return }
